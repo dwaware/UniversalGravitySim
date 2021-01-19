@@ -14,14 +14,14 @@ public class Stars : MonoBehaviour
         GameObject g0 = Instantiate(sphereList[0], new Vector3(0, 0, 0), Quaternion.identity);
         g0.transform.localScale = sunScale;
         Rigidbody sunRB = g0.GetComponent<Rigidbody>();
-        sunRB.mass = 333000;
+        sunRB.mass = 330000;
         sunRB.velocity = new Vector3(0, 0, 0);
 
         GameObject g1 = Instantiate(sphereList[1], new Vector3(100, 0, 100), Quaternion.identity);
         g1.transform.localScale = planetScale;
         Rigidbody planetRB = g1.GetComponent<Rigidbody>();
         planetRB.mass = 1;
-        planetRB.velocity = new Vector3(-200, 0, 200);
+        planetRB.velocity = new Vector3(200, 0, -200);
     }
 
     // Update is called once per frame
