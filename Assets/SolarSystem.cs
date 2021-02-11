@@ -87,7 +87,7 @@ public class SolarSystem : MonoBehaviour
             Debug.Log("mouseDown at x z: " + final_x + " " + final_z);
 
             //goast.transform.position = new Vector3(2 * final_x, 0.0f, 2 * final_z);
-            GameObject goast = Instantiate(asteroid, new Vector3(2 * final_x, 0.0f, 2 * final_z), Quaternion.identity);
+            GameObject goast = Instantiate(asteroid, new Vector3(final_x, 0.0f, final_z), Quaternion.identity);
             goast.name = "Asteroid";
             goast.transform.localScale = asteroidScale;
             Rigidbody astRB = goast.GetComponent<Rigidbody>();
