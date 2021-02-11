@@ -291,7 +291,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -400, z: 0}
+  m_LocalPosition: {x: 0, y: -950, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -309,6 +309,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd423fcaab6fd9d469148b36d6ee32bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sphereList:
+  star: {fileID: 8092832532626149818, guid: 6f9836e300a4763458fa71f13df92eef, type: 3}
+  asteroid: {fileID: 8092832532626149818, guid: 6f9836e300a4763458fa71f13df92eef,
+    type: 3}
+  radius: 
+  planetList:
   - {fileID: 8092832532626149818, guid: 6f9836e300a4763458fa71f13df92eef, type: 3}
   - {fileID: 8092832532626149818, guid: 6f9836e300a4763458fa71f13df92eef, type: 3}
+  - {fileID: 8092832532626149818, guid: 6f9836e300a4763458fa71f13df92eef, type: 3}
+  - {fileID: 8092832532626149818, guid: 6f9836e300a4763458fa71f13df92eef, type: 3}
+  - {fileID: 8092832532626149818, guid: 6f9836e300a4763458fa71f13df92eef, type: 3}
+  - {fileID: 8092832532626149818, guid: 6f9836e300a4763458fa71f13df92eef, type: 3}
+  - {fileID: 8092832532626149818, guid: 6f9836e300a4763458fa71f13df92eef, type: 3}
+  - {fileID: 8092832532626149818, guid: 6f9836e300a4763458fa71f13df92eef, type: 3}
+  orbitList:
+  - {fileID: 2066219781476347681, guid: 04cd9f0469abd9f4c9f1d6eecfc68f7a, type: 3}
+  - {fileID: 2066219781476347681, guid: 04cd9f0469abd9f4c9f1d6eecfc68f7a, type: 3}
+  - {fileID: 2066219781476347681, guid: 04cd9f0469abd9f4c9f1d6eecfc68f7a, type: 3}
+  - {fileID: 2066219781476347681, guid: 04cd9f0469abd9f4c9f1d6eecfc68f7a, type: 3}
+  - {fileID: 2066219781476347681, guid: 04cd9f0469abd9f4c9f1d6eecfc68f7a, type: 3}
+  - {fileID: 2066219781476347681, guid: 04cd9f0469abd9f4c9f1d6eecfc68f7a, type: 3}

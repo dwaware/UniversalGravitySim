@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Attractor : MonoBehaviour {
 
-	const float G = 39.5f;
-
 	public static List<Attractor> Attractors;
 
 	public Rigidbody rb;
@@ -42,7 +40,7 @@ public class Attractor : MonoBehaviour {
 		if (distance == 0f)
 			return;
 
-		float forceMagnitude = G * (rb.mass * rbToAttract.mass) / Mathf.Pow(distance, 2);
+		float forceMagnitude = Constants.G * Constants.G_SCALE * (rb.mass * rbToAttract.mass) / Mathf.Pow(distance, 2);
 		Vector3 force = direction.normalized * forceMagnitude;
 
 		rbToAttract.AddForce(force);
