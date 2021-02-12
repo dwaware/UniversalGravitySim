@@ -75,19 +75,24 @@ public class SolarSystem : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            //raycast instead???
-            int w_offset = Screen.width/2;
-            int h_offset = Screen.height/2;
-            float final_x = (float)Input.mousePosition.x - w_offset;
-            float final_z = -( (float)Input.mousePosition.y - h_offset );
+            Plane XZPlane = new Plane(Vector3.up, Vector3.zero);
+            Vector3 hitPoint = new Vector3();
+            hitPoint = Vector3.zero;
+            float distance;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (XZPlane.Raycast(ray, out distance))
+            {
+                hitPoint = ray.GetPoint(distance);
+                //Just double check to ensure the y position is exactly zero
+                hitPoint.y = 0;
+            }
 
             GameObject goast2 = GameObject.Find("Asteroid");
             Destroy(goast2);
 
-            Debug.Log("mouseDown at x z: " + final_x + " " + final_z);
+            Debug.Log("mouseDown at x z: " + hitPoint.x + " " + hitPoint.z);
 
-            //goast.transform.position = new Vector3(2 * final_x, 0.0f, 2 * final_z);
-            GameObject goast = Instantiate(asteroid, new Vector3(final_x, 0.0f, final_z), Quaternion.identity);
+            GameObject goast = Instantiate(asteroid, hitPoint, Quaternion.identity);
             goast.name = "Asteroid";
             goast.transform.localScale = asteroidScale;
             Rigidbody astRB = goast.GetComponent<Rigidbody>();
@@ -95,11 +100,11 @@ public class SolarSystem : MonoBehaviour
             //Debug.Log("Asteroid mass: " + astRB.mass);
             float xVelUnscaled = 0.5f;
             float zVelUnscaled = 0.5f;
-            if (final_x >= 0)
+            if (hitPoint.x >= 0)
             {
                 xVelUnscaled = -xVelUnscaled;
             }
-            if (final_z >= 0)
+            if (hitPoint.z >= 0)
             {
                 zVelUnscaled = -zVelUnscaled;
             }
@@ -108,7 +113,7 @@ public class SolarSystem : MonoBehaviour
         }
     }
 
-    void OnGUI()
+        void OnGUI()
     {
         //Make a proper esc key menu, but for now...
         GUI.Label(new Rect(10, 10, 300, 20), "Click the screen to reposition the asteroid.");
