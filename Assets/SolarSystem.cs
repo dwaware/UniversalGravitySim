@@ -37,6 +37,8 @@ public class SolarSystem : MonoBehaviour
             double pAngle = -1 * myRand.NextDouble() * Constants.TWO_PI;
             int pPlus1 = p + 1;
             double radius = 100 * pPlus1 + 50 * p * myRand.NextDouble();
+            // we have orbital references every 100 units, so make sure the actual orbits don't start on top of the reference lines
+            if (radius % 100 < 10) { radius += 10; }
             GameObject planet = Instantiate(planetList[p], new Vector3((float)radius * (float)Math.Cos(pAngle), 0, -1 * (float)radius * (float)Math.Sin(pAngle)), Quaternion.identity);
             planet.name = "Planet" + pPlus1;
             planet.transform.localScale = planetScale;
@@ -54,11 +56,10 @@ public class SolarSystem : MonoBehaviour
              * G is (2*Pi)^2 in units: AU^3 MSol^-1 YEAR^-2
              */
 
-            /*
+            //create some orbit lines as a circular reference to compare our planetary orbits to.
             GameObject orbit = Instantiate(orbitList[p], new Vector3(0, 0, 0), Quaternion.identity);
             orbit.name = "Orbit"+pPlus1;
-            orbit.SendMessage("SetRadius", radius);
-            */
+            orbit.SendMessage("SetRadius", 100*pPlus1);
         }
 
         GameObject goast = Instantiate(asteroid, new Vector3(-340, 0, -400), Quaternion.identity);
@@ -96,7 +97,10 @@ public class SolarSystem : MonoBehaviour
             goast.name = "Asteroid";
             goast.transform.localScale = asteroidScale;
             Rigidbody astRB = goast.GetComponent<Rigidbody>();
-            astRB.mass = Constants.MASS_EARTH / 10;
+            //The asteroid is the same mass as the planets for added fun.
+            //Note that due to floating point limitations, asteroids have to be no less than 1/10 of earth mass.
+            //You could generate one with less mass but it would not make for a very interesting deflection, i.e. no effect.
+            astRB.mass = Constants.MASS_EARTH / 1f;
             //Debug.Log("Asteroid mass: " + astRB.mass);
             float xVelUnscaled = 0.5f;
             float zVelUnscaled = 0.5f;
