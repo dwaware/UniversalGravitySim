@@ -5,4 +5,4 @@ Force-based solar system sym useful for testing interaction between objects: ast
 
 Clicking the screen changes the positiona and orientation of the object.
 
-![ugs](https://user-images.githubusercontent.com/74695555/107711686-450f1a80-6c85-11eb-8efd-b819cb8470e6.png)
+![ugs](https://user-images.githubusercontent.com/74695555/108571625-d1e15600-72cd-11eb-91a8-86bd1d9ffbef.png)
