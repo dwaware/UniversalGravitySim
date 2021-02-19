@@ -5,4 +5,4 @@ Force-based solar system sym useful for testing interaction between objects: ast
 
 Clicking the screen changes the position and orientation of the asteroid/comet.
 
-![ugs](https://user-images.githubusercontent.com/74695555/108571625-d1e15600-72cd-11eb-91a8-86bd1d9ffbef.png)
+![ugs](https://user-images.githubusercontent.com/74695555/108572885-84b2b380-72d0-11eb-97e5-3f13b4977aa2.png)
