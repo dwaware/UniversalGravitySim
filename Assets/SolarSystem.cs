@@ -12,9 +12,9 @@ public class SolarSystem : MonoBehaviour
     public List<GameObject> planetList = new List<GameObject>();
     public List<GameObject> orbitList = new List<GameObject>();
 
-    Vector3 starScale = new Vector3(4, 4, 4);
-    Vector3 planetScale = new Vector3(1, 1, 1);
-    Vector3 asteroidScale = new Vector3(1, 1, 1);
+    Vector3 starScale = new Vector3(10, 10, 10);
+    Vector3 planetScale = new Vector3(5, 5, 5);
+    Vector3 asteroidScale = new Vector3(4, 4, 4);
 
     // Start is called before the first frame update
     void Start()
