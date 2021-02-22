@@ -16,6 +16,14 @@ public class SolarSystem : MonoBehaviour
     Vector3 planetScale = new Vector3(5, 5, 5);
     Vector3 asteroidScale = new Vector3(4, 4, 4);
 
+    // clicking on the screen will result in a measurement of how long the mouse button was held down
+    // this will trandlate into a "velocity" for a new asteroid the user will create when they release the mouse button
+    // the initial velocity is:
+    float newAsteroidVelocity = 0.1f;
+
+    // holding the mouse button "charges" the velocity:
+    float chargeSpeed = 0.5f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -69,13 +77,34 @@ public class SolarSystem : MonoBehaviour
         astRB.mass = Constants.MASS_EARTH / 10;
         //Debug.Log("Asteroid mass: " + astRB.mass);
         astRB.velocity = new Vector3(0.4f * (float)Math.Sqrt(Constants.G_SCALE), 0, 0.3f * (float)Math.Sqrt(Constants.G_SCALE));
+        newAsteroidVelocity = 0.0f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Input.GetMouseButtonDown = when mouse button is clicked
+        //Input.GetMouseButton = when mouse button is held down
+        //Input.GetMouseButtonUp = on release
+
+        //time for a new asteroid:
         if (Input.GetMouseButtonDown(0))
         {
+            newAsteroidVelocity = 0.1f;
+        }
+
+        //let's charge the velocity:
+        if (Input.GetMouseButton(0))
+        {
+            newAsteroidVelocity += chargeSpeed * Time.deltaTime;
+            newAsteroidVelocity = (newAsteroidVelocity > 2.5f ? 2.5f : newAsteroidVelocity);
+        }            
+
+        //and create a new asteroid (after destroying the old one)
+        if (Input.GetMouseButtonUp(0))
+        {
+            Debug.Log(newAsteroidVelocity);
+
             Plane XZPlane = new Plane(Vector3.up, Vector3.zero);
             Vector3 hitPoint = new Vector3();
             hitPoint = Vector3.zero;
@@ -100,10 +129,10 @@ public class SolarSystem : MonoBehaviour
             //The asteroid is the same mass as the planets for added fun.
             //Note that due to floating point limitations, asteroids have to be no less than 1/10 of earth mass.
             //You could generate one with less mass but it would not make for a very interesting deflection, i.e. no effect.
-            astRB.mass = Constants.MASS_EARTH / 1f;
+            astRB.mass = Constants.MASS_EARTH / 10f;
             //Debug.Log("Asteroid mass: " + astRB.mass);
-            float xVelUnscaled = 0.5f;
-            float zVelUnscaled = 0.5f;
+            float xVelUnscaled = newAsteroidVelocity;
+            float zVelUnscaled = newAsteroidVelocity;
             if (hitPoint.x >= 0)
             {
                 xVelUnscaled = -xVelUnscaled;
