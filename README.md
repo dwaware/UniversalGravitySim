@@ -1,7 +1,7 @@
 # UniversalGravitySim
 Newton's Universal Law of Gravitation
 
-Force-based solar system sym useful for testing interaction between asteroids (or comets, etc.)
+Force-based solar system sim useful for testing interaction between asteroids (or comets, etc.) and other planets/stars.
 
 Clicking the screen destroys the current asteroid and creates a new one where the user clicked.  The speed of the new asteroid increases as the user continues to hold the mouse button down, up to a preset maximum, and when the user releases the mouse button the asteroid begins it's journey.
 
