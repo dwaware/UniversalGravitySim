@@ -5,6 +5,8 @@ using System;
 
 public class SolarSystem : MonoBehaviour
 {
+    private float alphaAmount = 1f;
+
     public GameObject star;
     public GameObject asteroid;
 
@@ -70,7 +72,7 @@ public class SolarSystem : MonoBehaviour
             orbit.SendMessage("SetRadius", 100*pPlus1);
         }
 
-        GameObject goast = Instantiate(asteroid, new Vector3(-340, 0, -400), Quaternion.identity);
+        GameObject goast = Instantiate(asteroid, new Vector3(-1000, 0, -500), Quaternion.identity);
         goast.name = "Asteroid";
         goast.transform.localScale = asteroidScale;
         Rigidbody astRB = goast.GetComponent<Rigidbody>();
@@ -103,7 +105,7 @@ public class SolarSystem : MonoBehaviour
         //and create a new asteroid (after destroying the old one)
         if (Input.GetMouseButtonUp(0))
         {
-            Debug.Log(newAsteroidVelocity);
+            Debug.Log("New asteroid velocity:  "+newAsteroidVelocity);
 
             Plane XZPlane = new Plane(Vector3.up, Vector3.zero);
             Vector3 hitPoint = new Vector3();
@@ -117,10 +119,17 @@ public class SolarSystem : MonoBehaviour
                 hitPoint.y = 0;
             }
 
-            GameObject goast2 = GameObject.Find("Asteroid");
-            Destroy(goast2);
-
-            Debug.Log("mouseDown at x z: " + hitPoint.x + " " + hitPoint.z);
+            if (GameObject.Find("Asteroid") != null)
+            {
+                GameObject goast2 = GameObject.Find("Asteroid");
+                Destroy(goast2);
+                Debug.Log("User has destroyed the old asteroid!");
+            }
+            else
+            {
+                //Debug.Log("Nothing to destroy!");
+            }
+            Debug.Log("New asteroid created at x,z: " + (int)hitPoint.x + "," + (int)hitPoint.z);
 
             GameObject goast = Instantiate(asteroid, hitPoint, Quaternion.identity);
             goast.name = "Asteroid";
@@ -141,14 +150,25 @@ public class SolarSystem : MonoBehaviour
             {
                 zVelUnscaled = -zVelUnscaled;
             }
-
             astRB.velocity = new Vector3(xVelUnscaled * (float)Math.Sqrt(Constants.G_SCALE), 0, zVelUnscaled* (float)Math.Sqrt(Constants.G_SCALE));
         }
     }
 
-        void OnGUI()
+    void OnGUI()
     {
         //Make a proper esc key menu, but for now...
-        GUI.Label(new Rect(10, 10, 300, 20), "Click the screen to reposition the asteroid.");
+
+        if (alphaAmount >= 0f)
+        {
+            alphaAmount -= 0.02f * Time.deltaTime;
+        }
+
+        GUI.color = new Color(1, 1, 1, alphaAmount);
+
+        if (alphaAmount >= 0f)
+        {
+            GUI.Label(new Rect(10, 10, 400, 20), "Click the screen to reposition the asteroid.");
+            GUI.Label(new Rect(10, 30, 800, 20), "The longer you hold the mouse button down, the faster your asteroid will travel!");
+        }
     }
 }

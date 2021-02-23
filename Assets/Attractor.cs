@@ -46,4 +46,12 @@ public class Attractor : MonoBehaviour {
 		rbToAttract.AddForce(force);
 	}
 
+	void OnCollisionEnter(Collision col)
+	{
+		if (col.gameObject.name == "Asteroid")
+		{
+			Debug.Log("The asteroid was destroyed by a collision!");
+			Destroy(col.gameObject);
+		}
+	}
 }
