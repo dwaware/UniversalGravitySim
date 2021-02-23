@@ -77,12 +77,13 @@ public class SolarSystem : MonoBehaviour
             orbit.SendMessage("SetRadius", 100*pPlus1);
         }
 
+        //The initial asteroid comes in at the upper-left corner of the screen heading to the lower-right corner.
         GameObject goast = Instantiate(asteroid, new Vector3(-1000, 0, -500), Quaternion.identity);
         goast.name = "Asteroid";
         goast.transform.localScale = asteroidScale;
         Rigidbody astRB = goast.GetComponent<Rigidbody>();
         astRB.mass = asteroidMass;
-        astRB.velocity = new Vector3(0.4f * (float)Math.Sqrt(Constants.G_SCALE), 0, 0.3f * (float)Math.Sqrt(Constants.G_SCALE));
+        astRB.velocity = new Vector3(0.3f * (float)Math.Sqrt(Constants.G_SCALE), 0, 0.1f * (float)Math.Sqrt(Constants.G_SCALE));
         newAsteroidVelocity = 0.0f;
     }
 
