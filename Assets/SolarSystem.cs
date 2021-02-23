@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using System;
 
 public class SolarSystem : MonoBehaviour
@@ -10,13 +13,15 @@ public class SolarSystem : MonoBehaviour
     public GameObject star;
     public GameObject asteroid;
 
+    public float asteroidMass = 3e-7f;
+
     public int[] radius;
     public List<GameObject> planetList = new List<GameObject>();
     public List<GameObject> orbitList = new List<GameObject>();
 
-    Vector3 starScale = new Vector3(10, 10, 10);
-    Vector3 planetScale = new Vector3(5, 5, 5);
-    Vector3 asteroidScale = new Vector3(4, 4, 4);
+    Vector3 starScale = new Vector3(20, 20, 20);
+    Vector3 planetScale = new Vector3(10, 10, 10);
+    Vector3 asteroidScale = new Vector3(5, 5, 5);
 
     // clicking on the screen will result in a measurement of how long the mouse button was held down
     // this will trandlate into a "velocity" for a new asteroid the user will create when they release the mouse button
@@ -76,8 +81,7 @@ public class SolarSystem : MonoBehaviour
         goast.name = "Asteroid";
         goast.transform.localScale = asteroidScale;
         Rigidbody astRB = goast.GetComponent<Rigidbody>();
-        astRB.mass = Constants.MASS_EARTH / 10;
-        //Debug.Log("Asteroid mass: " + astRB.mass);
+        astRB.mass = asteroidMass;
         astRB.velocity = new Vector3(0.4f * (float)Math.Sqrt(Constants.G_SCALE), 0, 0.3f * (float)Math.Sqrt(Constants.G_SCALE));
         newAsteroidVelocity = 0.0f;
     }
@@ -90,22 +94,34 @@ public class SolarSystem : MonoBehaviour
         //Input.GetMouseButtonUp = on release
 
         //time for a new asteroid:
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             newAsteroidVelocity = 0.1f;
         }
 
         //let's charge the velocity:
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             newAsteroidVelocity += chargeSpeed * Time.deltaTime;
             newAsteroidVelocity = (newAsteroidVelocity > 2.5f ? 2.5f : newAsteroidVelocity);
-        }            
+        }
+
 
         //and create a new asteroid (after destroying the old one)
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             Debug.Log("New asteroid velocity:  "+newAsteroidVelocity);
+
+            if (GameObject.Find("Asteroid") != null)
+            {
+                GameObject goast2 = GameObject.Find("Asteroid");
+                Destroy(goast2);
+                Debug.Log("User has destroyed the old asteroid!");
+            }
+            else
+            {
+                //Debug.Log("Nothing to destroy!");
+            }
 
             Plane XZPlane = new Plane(Vector3.up, Vector3.zero);
             Vector3 hitPoint = new Vector3();
@@ -119,16 +135,6 @@ public class SolarSystem : MonoBehaviour
                 hitPoint.y = 0;
             }
 
-            if (GameObject.Find("Asteroid") != null)
-            {
-                GameObject goast2 = GameObject.Find("Asteroid");
-                Destroy(goast2);
-                Debug.Log("User has destroyed the old asteroid!");
-            }
-            else
-            {
-                //Debug.Log("Nothing to destroy!");
-            }
             Debug.Log("New asteroid created at x,z: " + (int)hitPoint.x + "," + (int)hitPoint.z);
 
             GameObject goast = Instantiate(asteroid, hitPoint, Quaternion.identity);
@@ -138,7 +144,7 @@ public class SolarSystem : MonoBehaviour
             //The asteroid is the same mass as the planets for added fun.
             //Note that due to floating point limitations, asteroids have to be no less than 1/10 of earth mass.
             //You could generate one with less mass but it would not make for a very interesting deflection, i.e. no effect.
-            astRB.mass = Constants.MASS_EARTH / 10f;
+            astRB.mass = asteroidMass;
             //Debug.Log("Asteroid mass: " + astRB.mass);
             float xVelUnscaled = newAsteroidVelocity;
             float zVelUnscaled = newAsteroidVelocity;
@@ -170,5 +176,24 @@ public class SolarSystem : MonoBehaviour
             GUI.Label(new Rect(10, 10, 400, 20), "Click the screen to reposition the asteroid.");
             GUI.Label(new Rect(10, 30, 800, 20), "The longer you hold the mouse button down, the faster your asteroid will travel!");
         }
+    }
+
+    public void OnSliderValueChanged(float value)
+    {
+        float sliderAsteroidMass = GameObject.Find("Slider_Mass").GetComponent<Slider>().value;
+        this.asteroidMass = sliderAsteroidMass;
+
+        if (GameObject.Find("Asteroid") != null)
+        {
+            Rigidbody astRB = GameObject.Find("Asteroid").GetComponent<Rigidbody>();
+            astRB.mass = asteroidMass;
+        }
+
+        GameObject.Find("Text_Handle").GetComponent<Text>().text = sliderAsteroidMass.ToString() + " solar masses";
+    }
+
+    public void Reload()
+    {
+        Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
     }
 }
