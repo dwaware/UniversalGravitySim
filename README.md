@@ -7,6 +7,6 @@ Clicking the screen destroys the current asteroid and creates a new one where th
 
 Asteroids that collide with other objects are destroyed.  If a user places a new asteroid, the old one is also destroyed (if it exists.)
 
-![ugs](https://user-images.githubusercontent.com/74695555/108787180-79f75900-7532-11eb-9c60-e9602111cb7e.png)
+The mass of the asteroids are quite high, from 1/10 earth mass to 1/10 solar mass.  You can vary the mass of the asteroid on the fly using the asteroid mass slider control.
 
-![ugs2](https://user-images.githubusercontent.com/74695555/108787182-7b288600-7532-11eb-9ae4-01eb89d2748f.png)
+![ugs](https://user-images.githubusercontent.com/74695555/108801603-6c060000-7553-11eb-9874-a36d697c97cb.png)
